@@ -1,0 +1,38 @@
+From c36e3325ec4b895da88b5f13fd1f93262b6e12a1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Fri, 22 May 2015 13:44:03 +0300
+Subject: [PATCH] rtpsession: Remove useless goto
+
+https://bugzilla.gnome.org/show_bug.cgi?id=746543
+---
+ gst/rtpmanager/rtpsession.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/gst/rtpmanager/rtpsession.c b/gst/rtpmanager/rtpsession.c
+index 187ad7b..2e6588e 100644
+--- a/gst/rtpmanager/rtpsession.c
++++ b/gst/rtpmanager/rtpsession.c
+@@ -3536,11 +3536,7 @@ is_rtcp_time (RTPSession * sess, GstClockTime current_time, ReportData * data)
+     GST_DEBUG ("early feedback %" GST_TIME_FORMAT " < now %"
+         GST_TIME_FORMAT, GST_TIME_ARGS (sess->next_early_rtcp_time),
+         GST_TIME_ARGS (current_time));
+-    goto early;
+-  }
+-
+-  /* no need to check yet */
+-  if (sess->next_rtcp_check_time == GST_CLOCK_TIME_NONE ||
++  } else if (sess->next_rtcp_check_time == GST_CLOCK_TIME_NONE ||
+       sess->next_rtcp_check_time > current_time) {
+     GST_DEBUG ("no check time yet, next %" GST_TIME_FORMAT " > now %"
+         GST_TIME_FORMAT, GST_TIME_ARGS (sess->next_rtcp_check_time),
+@@ -3548,8 +3544,6 @@ is_rtcp_time (RTPSession * sess, GstClockTime current_time, ReportData * data)
+     return FALSE;
+   }
+ 
+-early:
+-
+   /* take interval and add jitter */
+   interval = data->interval;
+   if (interval != GST_CLOCK_TIME_NONE)
+-- 
+2.1.4

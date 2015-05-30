@@ -1,0 +1,102 @@
+From d70bc3e222141e68c0019c33c7d5379bcd120b37 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
+Date: Thu, 21 May 2015 12:54:47 +0300
+Subject: [PATCH] examples: Set RTP profile to AVPF for rtpaux examples
+
+https://bugzilla.gnome.org/show_bug.cgi?id=746543
+---
+ tests/examples/rtp/Makefile.am            | 4 ++--
+ tests/examples/rtp/client-H264-rtx.sh     | 2 +-
+ tests/examples/rtp/client-rtpaux.c        | 4 +++-
+ tests/examples/rtp/server-VTS-H264-rtx.sh | 2 +-
+ tests/examples/rtp/server-rtpaux.c        | 2 ++
+ 5 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/tests/examples/rtp/Makefile.am b/tests/examples/rtp/Makefile.am
+index 6bc3496..f4b1acd 100644
+--- a/tests/examples/rtp/Makefile.am
++++ b/tests/examples/rtp/Makefile.am
+@@ -5,11 +5,11 @@ noinst_PROGRAMS = server-alsasrc-PCMA client-PCMA \
+ ERROR_CFLAGS=
+ 
+ server_rtpaux_SOURCES = server-rtpaux.c
+-server_rtpaux_CFLAGS = $(GST_CFLAGS)
++server_rtpaux_CFLAGS = $(GST_CFLAGS) $(GST_PLUGINS_BASE_CFLAGS)
+ server_rtpaux_LDADD = $(GST_LIBS)
+ 
+ client_rtpaux_SOURCES = client-rtpaux.c
+-client_rtpaux_CFLAGS = $(GST_CFLAGS)
++client_rtpaux_CFLAGS = $(GST_CFLAGS) $(GST_PLUGINS_BASE_CFLAGS)
+ client_rtpaux_LDADD = $(GST_LIBS)
+ 
+ server_alsasrc_PCMA_SOURCES = server-alsasrc-PCMA.c
+diff --git a/tests/examples/rtp/client-H264-rtx.sh b/tests/examples/rtp/client-H264-rtx.sh
+index b4a2c6f..fe53f60 100755
+--- a/tests/examples/rtp/client-H264-rtx.sh
++++ b/tests/examples/rtp/client-H264-rtx.sh
+@@ -35,7 +35,7 @@ DEST=127.0.0.1
+ 
+ LATENCY=200
+ 
+-gst-launch-1.0 -v rtpbin name=rtpbin latency=$LATENCY do-retransmission=1           \
++gst-launch-1.0 -v rtpbin name=rtpbin rtp-profile=avpf latency=$LATENCY do-retransmission=1 \
+     udpsrc caps=$VIDEO_CAPS port=5000 ! rtpbin.recv_rtp_sink_0                      \
+       rtpbin. ! $VIDEO_DEC ! $VIDEO_SINK                                            \
+     udpsrc port=5001 ! rtpbin.recv_rtcp_sink_0                                      \
+diff --git a/tests/examples/rtp/client-rtpaux.c b/tests/examples/rtp/client-rtpaux.c
+index 8953e9e..011fcce 100644
+--- a/tests/examples/rtp/client-rtpaux.c
++++ b/tests/examples/rtp/client-rtpaux.c
+@@ -18,6 +18,7 @@
+  * Boston, MA 02110-1301, USA.
+  */
+ #include <gst/gst.h>
++#include <gst/rtp/rtp.h>
+ #include <stdlib.h>
+ 
+ /*
+@@ -352,7 +353,8 @@ main (int argc, char **argv)
+ 
+   rtpBin = gst_element_factory_make ("rtpbin", NULL);
+   gst_bin_add (GST_BIN (pipe), rtpBin);
+-  g_object_set (rtpBin, "latency", 200, "do-retransmission", TRUE, NULL);
++  g_object_set (rtpBin, "latency", 200, "do-retransmission", TRUE,
++      "rtp-profile", GST_RTP_PROFILE_AVPF, NULL);
+ 
+   videoSession = make_video_session (0);
+   audioSession = make_audio_session (1);
+diff --git a/tests/examples/rtp/server-VTS-H264-rtx.sh b/tests/examples/rtp/server-VTS-H264-rtx.sh
+index 40d860c..fdb3d20 100755
+--- a/tests/examples/rtp/server-VTS-H264-rtx.sh
++++ b/tests/examples/rtp/server-VTS-H264-rtx.sh
+@@ -40,7 +40,7 @@ VRTPSINK="udpsink port=5000 host=$DEST ts-offset=$VOFFSET name=vrtpsink"
+ VRTCPSINK="udpsink port=5001 host=$DEST sync=false async=false name=vrtcpsink"
+ VRTCPSRC="udpsrc port=5005 name=vrtpsrc"
+ 
+-gst-launch-1.0 -v rtpbin name=rtpbin \
++gst-launch-1.0 -v rtpbin name=rtpbin rtp-profile=avpf \
+     $VSOURCE ! $VENC ! rtprtxqueue ! rtpbin.send_rtp_sink_0                               \
+         rtpbin.send_rtp_src_0 ! identity drop-probability=0.1 ! $VRTPSINK                 \
+         rtpbin.send_rtcp_src_0 ! $VRTCPSINK                                               \
+diff --git a/tests/examples/rtp/server-rtpaux.c b/tests/examples/rtp/server-rtpaux.c
+index 838900f..b027f2f 100644
+--- a/tests/examples/rtp/server-rtpaux.c
++++ b/tests/examples/rtp/server-rtpaux.c
+@@ -18,6 +18,7 @@
+  * Boston, MA 02110-1301, USA.
+  */
+ #include <gst/gst.h>
++#include <gst/rtp/rtp.h>
+ 
+ /*
+  * An RTP server
+@@ -272,6 +273,7 @@ main (int argc, char **argv)
+   gst_object_unref (bus);
+ 
+   rtpBin = gst_element_factory_make ("rtpbin", NULL);
++  g_object_set (rtpBin, "rtp-profile", GST_RTP_PROFILE_AVPF, NULL);
+ 
+   gst_bin_add (GST_BIN (pipe), rtpBin);
+ 
+-- 
+2.1.4

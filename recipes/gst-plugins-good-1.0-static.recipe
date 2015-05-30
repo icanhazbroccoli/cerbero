@@ -11,6 +11,16 @@ class Recipe(custom.GStreamerStatic):
     commit = '565cd496436185c9ddbb579014872c35883c8d34'
     deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'orc', 'bzip2', 'zlib',
             'libvpx']
+    patches = [
+        'gst-plugins-good/rtpsession-Add-property-for-selecting-RTP-profile-.patch',
+        'gst-plugins-good/rtpsession-Keep-track-of-tptn-and-trrlast-separate.patch',
+        'gst-plugins-good/rtpsession-Only-put-RRs-and-full-SDES-into-regular.patch',
+        'gst-plugins-good/rtpbin-Add-rtp-profile-property-for-setting-the-de.patch',
+        'gst-plugins-good/rtspsrc-Set-RTP-profile-on-the-rtpsession-objects.patch',
+        'gst-plugins-good/examples-Set-RTP-profile-to-AVPF-for-rtpaux-exampl.patch',
+        'gst-plugins-good/rtpsession-Remove-useless-goto.patch',
+        'gst-plugins-good/rtpsession-Only-schedule-a-timer-when-we-actually-.patch'
+    ]
 
 
     files_plugins_core_devel = [
