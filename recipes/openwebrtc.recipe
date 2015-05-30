@@ -54,8 +54,8 @@ class Recipe(recipe.Recipe):
     # Dependencies used in all builds
     deps = ['gettext', 'glib', 'libffi', 'gtk-doc-lite', 'seed'] + \
            _dynamic_deps
-    platform_deps = {Platform.DARWIN: ['json-glib', 'libsoup', 'gtk-doc'],
-                     Platform.LINUX: ['json-glib', 'libsoup'],
+    platform_deps = {Platform.DARWIN: ['json-glib', 'libsoup', 'gtk-doc', 'pygobject'],
+                     Platform.LINUX: ['json-glib', 'libsoup', 'pygobject'],
                      Platform.IOS: _static_deps,
                      Platform.ANDROID: _static_deps + ['gnustl']}
     # Parallel make fails randomly due to .gitignore generation by git.mk
