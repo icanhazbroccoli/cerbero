@@ -3,19 +3,21 @@
 class Recipe(recipe.Recipe):
     name = 'libnice'
     version = '0.1.13'
-    stype = SourceType.TARBALL
-    url = 'http://nice.freedesktop.org/releases/%(name)s-%(version)s.tar.gz'
+    stype = SourceType.GIT
+    remotes = {'origin': 'https://github.com/pexip/libnice.git'}
+    commit = '1a0796dfb9dc9769ef7b15fceefd5cebd1d3152b'
     licenses = [License.LGPLv2_1Plus, License.MPLv1_1]
+    config_sh = 'sh ./autogen.sh --no-configure && ./configure'
     configure_options = ' --enable-static --enable-shared --with-gstreamer \
             --without-gstreamer-0.10 --enable-compile-warnings=maximum \
-            --disable-gtk-doc'
+            --disable-gtk-doc --disable-python '
     deps = ['glib', 'gtk-doc-lite', 'gstreamer-1.0']
-    autoreconf = True
     patches = [
-        "libnice/0001-agent-Remove-unnecessary-NULL-check.patch",
-        "libnice/0002-Do-not-update-a-remote-candidate-s-type.patch",
-        "libnice/0003-Do-not-compare-scope-for-IPv6-address-when-scope-is-.patch",
-        "libnice/0004-Removing-no-op-assignment.patch"
+        "libnice/0001-agent-Add-API-to-set-local-credentials.patch"
+#        "libnice/0001-agent-Remove-unnecessary-NULL-check.patch",
+#        "libnice/0002-Do-not-update-a-remote-candidate-s-type.patch",
+#        "libnice/0003-Do-not-compare-scope-for-IPv6-address-when-scope-is-.patch",
+#        "libnice/0004-Removing-no-op-assignment.patch"
     ]
 
     files_bins = ['stunbdc', 'stund']
