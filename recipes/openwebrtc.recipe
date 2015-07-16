@@ -42,6 +42,9 @@ class Recipe(recipe.Recipe):
         'origin': 'https://github.com/EricssonResearch/openwebrtc.git'
     }
     commit = 'origin/master'
+    patches = [
+        'openwebrtc/0001-configure.ac-Check-for-libnice-0.1.3-as-that-is-the-.patch'
+    ]
     autoreconf = True
     autoreconf_sh = 'mkdir -p m4 && gtkdocize && autoreconf -fiv'
     # Dependencies used in the dynamic (shared) build of OWRTC

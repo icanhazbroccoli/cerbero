@@ -1,0 +1,26 @@
+From 8af50847e51cc67ffc87c88d8661c670f7179df4 Mon Sep 17 00:00:00 2001
+From: Robert Swain <robert.swain@ericsson.com>
+Date: Thu, 16 Jul 2015 12:33:48 +0200
+Subject: [PATCH] configure.ac: Check for libnice 0.1.3 as that is the Pexip
+ version
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index d5fdc38..41a167f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -28,7 +28,7 @@ AC_SUBST(LIBOPENWEBRTC_CFLAGS)
+ GST_REQUIRED=1.4
+ PKG_CHECK_MODULES(GLIB, [glib-2.0, gobject-2.0, gmodule-2.0, gthread-2.0])
+ PKG_CHECK_MODULES(GSTREAMER, [gstreamer-1.0 >= $GST_REQUIRED gstreamer-rtp-1.0 >= $GST_REQUIRED gstreamer-video-1.0 >= $GST_REQUIRED gstreamer-app-1.0 >= $GST_REQUIRED])
+-PKG_CHECK_MODULES(NICE, [nice >= 0.1.7.1])
++PKG_CHECK_MODULES(NICE, [nice >= 0.1.3])
+ PKG_CHECK_MODULES(GSTREAMER_SCTP, [gstreamer-sctp-1.0])
+ PKG_CHECK_MODULES(ORC, [orc-0.4])
+ 
+-- 
+2.3.2 (Apple Git-55)
+
