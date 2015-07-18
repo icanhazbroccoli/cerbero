@@ -1,0 +1,32 @@
+From 0c968d4e2c90800ea9234a43344efe8709471b90 Mon Sep 17 00:00:00 2001
+From: Robert Swain <robert.swain@ericsson.com>
+Date: Fri, 17 Jul 2015 14:52:25 +0200
+Subject: [PATCH 7/7] OwrTransportAgent: Enable ICE transports
+
+---
+ transport/owr_transport_agent.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/transport/owr_transport_agent.c b/transport/owr_transport_agent.c
+index ef7065f..84edbe0 100644
+--- a/transport/owr_transport_agent.c
++++ b/transport/owr_transport_agent.c
+@@ -952,6 +952,15 @@ static gboolean add_session(GHashTable *args)
+         goto end;
+     }
+ 
++    nice_agent_set_transport(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTP, NICE_CANDIDATE_TRANSPORT_UDP);
++    nice_agent_set_transport(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTP, NICE_CANDIDATE_TRANSPORT_TCP_ACTIVE);
++    nice_agent_set_transport(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTP, NICE_CANDIDATE_TRANSPORT_TCP_PASSIVE);
++    if (!rtcp_mux) {
++        nice_agent_set_transport(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTCP, NICE_CANDIDATE_TRANSPORT_UDP);
++        nice_agent_set_transport(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTCP, NICE_CANDIDATE_TRANSPORT_TCP_ACTIVE);
++        nice_agent_set_transport(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTCP, NICE_CANDIDATE_TRANSPORT_TCP_PASSIVE);
++    }
++
+     g_mutex_lock(&priv->sessions_lock);
+     g_hash_table_insert(priv->sessions, GUINT_TO_POINTER(stream_id), session);
+     g_object_ref(session);
+-- 
+2.3.2 (Apple Git-55)
+

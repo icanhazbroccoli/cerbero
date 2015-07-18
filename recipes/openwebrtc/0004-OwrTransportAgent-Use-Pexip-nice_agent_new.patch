@@ -1,0 +1,26 @@
+From 14072a6edaedf9002614af98415fd9c2a03333e8 Mon Sep 17 00:00:00 2001
+From: Robert Swain <robert.swain@ericsson.com>
+Date: Fri, 17 Jul 2015 08:11:30 +0200
+Subject: [PATCH 4/7] OwrTransportAgent: Use Pexip nice_agent_new()
+
+---
+ transport/owr_transport_agent.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/transport/owr_transport_agent.c b/transport/owr_transport_agent.c
+index fc19b6b..2fbb40c 100644
+--- a/transport/owr_transport_agent.c
++++ b/transport/owr_transport_agent.c
+@@ -393,7 +393,8 @@ static void owr_transport_agent_init(OwrTransportAgent *transport_agent)
+ 
+     g_return_if_fail(_owr_is_initialized());
+ 
+-    priv->nice_agent = nice_agent_new(_owr_get_main_context(), NICE_COMPATIBILITY_RFC5245);
++    priv->nice_agent = nice_agent_new(_owr_get_main_context(),
++        NICE_COMPATIBILITY_RFC5245, NICE_COMPATIBILITY_RFC5245);
+     g_object_bind_property(transport_agent, "ice-controlling-mode", priv->nice_agent,
+         "controlling-mode", G_BINDING_SYNC_CREATE);
+     g_signal_connect(G_OBJECT(priv->nice_agent), "new-candidate-full",
+-- 
+2.3.2 (Apple Git-55)
+

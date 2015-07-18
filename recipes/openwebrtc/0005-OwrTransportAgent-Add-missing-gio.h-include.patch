@@ -1,0 +1,24 @@
+From ed465c6d2665c69013fa84b614c0f2ecf144f633 Mon Sep 17 00:00:00 2001
+From: Robert Swain <robert.swain@ericsson.com>
+Date: Fri, 17 Jul 2015 08:15:02 +0200
+Subject: [PATCH 5/7] OwrTransportAgent: Add missing gio.h include
+
+---
+ transport/owr_transport_agent.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/transport/owr_transport_agent.c b/transport/owr_transport_agent.c
+index 2fbb40c..68e448e 100644
+--- a/transport/owr_transport_agent.c
++++ b/transport/owr_transport_agent.c
+@@ -60,6 +60,7 @@
+ 
+ #include <agent.h>
+ #include <interfaces.h>
++#include <gio/gio.h>
+ #include <gst/app/gstappsink.h>
+ #include <gst/app/gstappsrc.h>
+ #include <gst/gst.h>
+-- 
+2.3.2 (Apple Git-55)
+

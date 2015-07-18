@@ -1,0 +1,28 @@
+From 20e5a2400edbd83913557082b5e902e2f57e088c Mon Sep 17 00:00:00 2001
+From: Robert Swain <robert.swain@ericsson.com>
+Date: Fri, 17 Jul 2015 08:08:14 +0200
+Subject: [PATCH 3/7] TEMPORARY: OwrTransportAgent: Disable missing forget
+ relays API
+
+---
+ transport/owr_transport_agent.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/transport/owr_transport_agent.c b/transport/owr_transport_agent.c
+index 56113f2..fc19b6b 100644
+--- a/transport/owr_transport_agent.c
++++ b/transport/owr_transport_agent.c
+@@ -669,8 +669,10 @@ static void update_helper_servers(OwrTransportAgent *transport_agent, guint stre
+     g_return_if_fail(OWR_IS_TRANSPORT_AGENT(transport_agent));
+     priv = transport_agent->priv;
+ 
++/*
+     nice_agent_forget_relays(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTP);
+     nice_agent_forget_relays(priv->nice_agent, stream_id, NICE_COMPONENT_TYPE_RTCP);
++*/
+ 
+     for (item = priv->helper_server_infos; item; item = item->next) {
+         helper_server_info = item->data;
+-- 
+2.3.2 (Apple Git-55)
+

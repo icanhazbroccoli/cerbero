@@ -1,0 +1,38 @@
+From 6bfd048f7a4a74d8726ed90dab431ce0209f80c6 Mon Sep 17 00:00:00 2001
+From: Robert Swain <robert.swain@ericsson.com>
+Date: Fri, 17 Jul 2015 07:56:59 +0200
+Subject: [PATCH 2/7] TEMPORARY: OwrCandidate: Hack out TCP SO support
+
+---
+ transport/owr_candidate.c | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/transport/owr_candidate.c b/transport/owr_candidate.c
+index 9a26f21..92f1e88 100644
+--- a/transport/owr_candidate.c
++++ b/transport/owr_candidate.c
+@@ -358,10 +358,6 @@ OwrCandidate * _owr_candidate_new_from_nice_candidate(NiceCandidate *nice_candid
+     case NICE_CANDIDATE_TRANSPORT_TCP_PASSIVE:
+         transport_type = OWR_TRANSPORT_TYPE_TCP_PASSIVE;
+         break;
+-
+-    case NICE_CANDIDATE_TRANSPORT_TCP_SO:
+-        transport_type = OWR_TRANSPORT_TYPE_TCP_SO;
+-        break;
+     }
+     g_return_val_if_fail(transport_type != (OwrTransportType)-1, NULL);
+ 
+@@ -453,10 +449,6 @@ NiceCandidate * _owr_candidate_to_nice_candidate(OwrCandidate *candidate)
+         transport = NICE_CANDIDATE_TRANSPORT_TCP_PASSIVE;
+         break;
+ 
+-    case OWR_TRANSPORT_TYPE_TCP_SO:
+-        transport = NICE_CANDIDATE_TRANSPORT_TCP_SO;
+-        break;
+-
+     default:
+         g_return_val_if_reached(NULL);
+     }
+-- 
+2.3.2 (Apple Git-55)
+

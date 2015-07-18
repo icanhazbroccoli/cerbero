@@ -43,7 +43,13 @@ class Recipe(recipe.Recipe):
     }
     commit = 'origin/master'
     patches = [
-        'openwebrtc/0001-configure.ac-Check-for-libnice-0.1.3-as-that-is-the-.patch'
+        'openwebrtc/0001-configure.ac-Check-for-libnice-0.1.3-as-that-is-the-.patch',
+        'openwebrtc/0002-TEMPORARY-OwrCandidate-Hack-out-TCP-SO-support.patch',
+        'openwebrtc/0003-TEMPORARY-OwrTransportAgent-Disable-missing-forget-r.patch',
+        'openwebrtc/0004-OwrTransportAgent-Use-Pexip-nice_agent_new.patch',
+        'openwebrtc/0005-OwrTransportAgent-Add-missing-gio.h-include.patch',
+        'openwebrtc/0006-Revert-transport_agent-Use-new-candidate-full-instea.patch',
+        'openwebrtc/0007-OwrTransportAgent-Enable-ICE-transports.patch'
     ]
     autoreconf = True
     autoreconf_sh = 'mkdir -p m4 && gtkdocize && autoreconf -fiv'
