@@ -33,13 +33,14 @@ class Architecture:
     UNIVERSAL = 'universal'
     ARM = 'arm'
     ARMv7 = 'armv7'
+    ARMv7L = 'armv7l'
     ARMv7S = 'armv7s'
     ARM64 = 'arm64'
 
     @staticmethod
     def is_arm(arch):
         return arch in [Architecture.ARM, Architecture.ARMv7,
-                Architecture.ARMv7S]
+                Architecture.ARMv7L,Architecture.ARMv7S]
 
 
 class Distro:
